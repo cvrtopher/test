@@ -1,0 +1,71 @@
+package com.latam.vomca;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class test {
+
+	private final static String TEXT_ALERT = "You are already logged in.";
+	private final static String URL = "http://2.2.2.2/login.html";
+	private static WebDriver driver = null;
+
+	public static void main(String[] args) {
+		connectWifiFireFox();
+		connectWifiChrome();
+	}
+
+	/**
+	 * 
+	 */
+	private static void connectWifiFireFox() {
+		driver = new FirefoxDriver();
+		driver.get(URL);
+		driver.findElement(By.name("username")).sendKeys("LTIT4RO7");
+		driver.findElement(By.name("password")).sendKeys("9ze8bgim");
+		driver.findElement(By.name("Submit")).click();
+		if (getAlert() != null && getAlert().getText().contains(TEXT_ALERT)) {
+			driver.switchTo().alert().accept();
+		} else {
+			System.out.println("NO LOGEADO en FireFox");
+		}
+		driver.close();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private static Alert getAlert() {
+		try {
+			Thread.sleep(500);
+			Alert alert = driver.switchTo().alert();
+			return alert;
+		} catch (NoAlertPresentException e) {
+			return null;
+		} catch (InterruptedException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private static void connectWifiChrome() {
+		driver = new ChromeDriver();
+		driver.get(URL);
+		driver.findElement(By.name("username")).sendKeys("LTIT4RO7");
+		driver.findElement(By.name("password")).sendKeys("9ze8bgim");
+		driver.findElement(By.name("Submit")).click();
+		if (getAlert() != null && getAlert().getText().contains(TEXT_ALERT)) {
+			driver.switchTo().alert().accept();
+		} else {
+			System.out.println("NO LOGEADO en Chrome");
+		}
+		driver.close();
+	}
+
+}
